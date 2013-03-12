@@ -24,11 +24,10 @@ public:
 
     
     void propagate(const T& good){
-        // currently it's not portable
-        // this iteration can replace with general for 
-        std::for_each(inputProcessors_.begin(), inputProcessors_.end(), [&](IInputProcessor<T> * inputProcessor){
-            inputProcessor->process(good);
-        });
+    	typename std::vector<IInputProcessor<T> *>::iterator i;
+    	for(i = inputProcessors_.begin(); i!=inputProcessors_.end();++i){
+    		(*i)->process(good);
+    	}
     }
 
 private:

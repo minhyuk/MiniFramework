@@ -3,7 +3,7 @@
 #include <iostream>
 #include <iosfwd>
 
-#include "MiniFramework.h"
+#include "MiniFramework/MiniFramework.h"
 
 class Int2Char : public Convey<char>, public IInputProcessor<int> {
 public:
@@ -71,13 +71,14 @@ public:
     }
 };
 
-class StringsPrinter : public IInputProcessor<vector<string>>{
+class StringsPrinter : public IInputProcessor<vector<string> >{
 public:
     virtual void process(const vector<string>& obj){
         cout << "[StringPrinter]\n";
-        for_each(obj.begin(), obj.end(), [](string v){
-            cout << v << endl;
-        });
+        vector<string>::const_iterator i;
+        for(i = obj.begin(); i!=obj.end();++i){
+            cout << (*i) << endl;
+        }
     }
 };
 
@@ -86,9 +87,10 @@ class CallEachString : public Worker<vector<string>, string>{
 public:
     virtual void process(const vector<string>& obj){
         cout << "[CallEachString]\n";
-        for_each(obj.begin(), obj.end(), [&](string v){
-            propagate(v);
-        });
+        vector<string>::const_iterator i;
+        for(i = obj.begin(); i!=obj.end();++i){
+            propagate(*i);
+        }
     }
 };
 
