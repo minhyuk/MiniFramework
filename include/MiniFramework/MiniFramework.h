@@ -1,10 +1,10 @@
 #ifndef __MiniFramework_h__
 #define __MiniFramework_h__
 
-#include <vector>
-#include <algorithm>
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
 
-template <typename V>
+template &lt;typename V&gt;
 class IInputProcessor
 {
 public:
@@ -13,11 +13,11 @@ public:
      * This function must be implemented by derived classes to handle specific input processing.
      * @param obj The input object of type V that needs to be processed.
      */
-    virtual void process(const V& obj) = 0;
+    virtual void process(const V&amp; obj) = 0;
 };
 
 
-template <typename T>
+template &lt;typename T&gt;
 class Convey
 {
 public:
@@ -32,7 +32,11 @@ public:
      * This allows the convey to forward the goods to the next processor in the workflow.
      * @param inputProcessor A pointer to the input processor to be added to the convey mechanism.
      */
-    void addNextProcessor(IInputProcessor<T> * inputProcessor ){
+    void addNextProcessor(IInputProcessor&lt;T&gt; * inputProcessor ){
+        /** 
+         * Adds an input processor to the end of the processing chain.
+         * The added processor will take part in the processing of the goods as they are propagated through the chain.
+         */
         inputProcessors_.push_back(inputProcessor);
     }
 
@@ -41,23 +45,27 @@ public:
      * Each input processor processes the good in the order they were added.
      * @param good The good to be propagated through the input processors.
      */
-    void propagate(const T& good){
-        typename std::vector<IInputProcessor<T> *>::iterator i;
+    void propagate(const T&amp; good){
+        /**
+         * Iterates over all input processors added to this convey and calls their process function on the input good.
+         * This supports a chain of responsibility pattern where each processor in turn does its part in handling the good.
+         */
+        typename std::vector&lt;IInputProcessor&lt;T&gt; *&gt;::iterator i;
         for(i = inputProcessors_.begin(); i!=inputProcessors_.end();++i){
-            (*i)->process(good);
+            (*i)-&gt;process(good);
         }
     }
 
 private:
-    std::vector<IInputProcessor<T> *> inputProcessors_;
+    std::vector&lt;IInputProcessor&lt;T&gt; *&gt; inputProcessors_;
 };
 
 /**
  * Represents a generic worker that can handle one type of input and produce another type of output.
  * Inherits from both IInputProcessor to process input and Convey to handle output propagation.
  */
-template <typename From, typename To>
-class Worker : public IInputProcessor<From>, public Convey<To>{};
+template &lt;typename From, typename To&gt;
+class Worker : public IInputProcessor&lt;From&gt;, public Convey&lt;To&gt;{};
 
 #endif // __MiniFramework_h__
 
