@@ -61,3 +61,5 @@ class Worker : public IInputProcessor<From>, public Convey<To>{};
 
 #endif // __MiniFramework_h__
 
+
+
