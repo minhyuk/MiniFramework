@@ -1,61 +1,50 @@
-﻿MiniFramework
+MiniFramework
 =============
 
-이 프로젝트는 “유연하고 단순한 프레임워크” 라는 모토로 시작된 프로젝트입니다. MiniFramework 는 이 프로젝트의 이름입니다.
-MiniFramework 은 Chain Responsibility Pattern[1] 에서 영감을 얻었습니다, 
-이를 토대로 본인은 더욱 안전한하고, 유연하게 사용할 수 있는 패턴을 구성했으며, Convey 패턴이라 명명했습니다.
+This project, guided by the motto "flexible and simple framework," aims to create a framework that is both adaptable and easy to use. The project's name is MiniFramework.
+Inspired by the Chain of Responsibility Pattern[1], I have designed a more secure and flexible pattern, which I have dubbed the Convey Pattern.
 
 Convey Pattern
 =============
 
-Convey 패턴은 공장의 Convey 벨트에서 “무엇” 이 지속적으로 조립되는 것과 유사한 패턴이라서, Convey 벨트(인터페이스)와 설비(구현)만 추가하면 
-유연하게 확장할 수 있습니다. 뿐만 아니라 이 프레임워크를 사용할 때도 잘 문서화되고 목록화된 Convey 집합 중에 일부를 사용해서 프로그램을 구성할 수 있습니다.
+The Convey pattern is similar to a factory's conveyor belt, where individual components are continuously assembled. By adding a conveyor belt (interface) and facilities (implementation), the pattern can be easily extended. Moreover, when using this framework, you can build a program by selecting and combining documented and listed Convey sets.
 
-Convey 패턴의 좋은 점은 여러가지가 있습니다.
- * 단순하고 구조적이다.
- * 포인터를 사용할 필요가 없다: const 참조 전달로 각 오브젝트가 전달된다.
- * 메모리 해제를 사용할 필요가 없다: 모든 오브젝트는 로컬 변수며, 이 변수가 전파되는 형태이다
- * Convey 의 조립이 직관적이므로 병렬화를 쉽게 할 수 있다: 병렬화를 위한 Convey 가 구성되면 프로그래머는 라이브러리 차원의 병렬화를 쉽게 취할 수 있게된다.
- * 모든 조립 절차가 코드상에 나타난다: 프로그램의 흐름 구조를 한눈에 파악할 수 있다.
- * 다수의 입력으로부터 다수의 출력을 생성하는 것이 가능하다: n:m 의 연결이 가능하다.
- * 상속보다는 컴포짓이라는 디자인 원칙을 충실히 이행할 수 있다: Convey 를 연결하는 것이 결국 Composite 을 완성하는 것이 된다..
- * 단일 책임 원칙을 지킬 수 있다: Convey 하나는 하나의 역할만 부여하는 것이 매우 직관적이며 인터페이스는 이를 강제한다.
+The Convey pattern has several advantages:
+* It is simple and structured.
+* It eliminates the need for pointers: each object is passed by constant reference.
+* It does not require memory release: all objects are local variables, and their lifetime is scope-based.
+* The assembly of Convey is intuitive, making parallelization easy: once a parallelizable Convey is composed, programmers can easily parallelize it at the library level.
+* The entire assembly process is reflected in the code, making it easy to grasp the program's flow structure.
+* It allows for multiple inputs to generate multiple outputs: n:m connections are possible.
+* It adheres to the composite design principle, rather than inheritance: connecting Conveys ultimately completes a composite.
+* It adheres to the single responsibility principle: each Convey has a single, intuitive role, and interfaces enforce this.
 
 Object
 =============
-대부분의 소프트웨어가 아주 작은 힌트로부터 출발해서 거대한 “좋은 것”을 만들어 냅니다.
-예를 들면, 컴파일러는 “(파일이름, 컴파일옵션)” 으로부터 시작해서 최종적으로 “(오브젝트 파일)” 을 생성해냅니다. 물론 중간중간 다양한 단계
-(우리 표현으로는 Convey)를 거치게 됩니다.
-포토샵 같은 이미지 처리기는 “원본이미지” 로부터 “보정된이미지” 를 출력하며, 역시 중간에 많은 Convey 를 통과하게 됩니다. 
-이와 유사하게 다양한 소프트웨어가 비슷한 구조를 가지고 있습니다.
 
-현재 github 에 올려진 소스 중에 가장 근간을 이루는 패턴인 MiniFramework 은 기본적으로 구성된 상태고(include/MiniFramework),
-여기에 다양한 목적의 Convey 들을 추가하려 합니다. 
-사람들이 사용할만한 Convey 들 예를 들면
- * Command line 인자를 Option List 로 바꿔주는 Convey.
- * 특정 파일을 Property 형태로 바꿔주는 Convey
- * 등록된 다른 Convey 를 병렬로 수행시키는 Convey: Map
- * 등록된 다른 Convey 가 모두 완료될 때 까지 기다리는 Convey: Reduce
- * 지정된 경로/파일로부터 FileSystem 객체를 반환하는 Convey
- * 입력된 문자열과 구분자를 이용해서 list 로 분리하는 Convey
- * 특정 인터페이스를 만족하는 오브젝트를 파일에 출력하는 Convey 
-등등
+Most software starts with a small hint and gradually builds up to something great. For example, a compiler takes "(filename, compile options)" as input and ultimately generates "(object file)". Of course, it goes through various intermediate stages (which we call Convey). Similarly, image processing software like Photoshop starts with a "source image" and outputs a "corrected image", also passing through many Conveys.
 
-이 프로젝트에서는 무언가 자주 사용될 것 같고, 유용할 것 같은 Convey 들을 추가하는 것을 1차 목표로 합니다.
-필요에 따라, 교육 목적으로 특정 데모 프로그램을 만드는 것도 1차 목표에 포함됩니다.
+Currently, the MiniFramework source code on GitHub is composed of a basic pattern (include/MiniFramework), to which we plan to add various Conveys with different purposes. Some examples of Conveys that people might find useful include:
+* A Convey that converts command-line arguments to an option list.
+* A Convey that converts a specific file to a property format.
+* A Convey that performs registered Conveys in parallel: Map.
+* A Convey that waits until all registered Conveys are complete: Reduce.
+* A Convey that returns a FileSystem object from a specified path/file.
+* A Convey that splits an input string into a list using a delimiter.
+* A Convey that outputs an object satisfying a specific interface to a file.
 
+Our first goal is to add Conveys that are likely to be frequently used and prove useful. Additionally, we may create demo programs for educational purposes, depending on needs.
 
 Comment
 =============
 
-상상해 보십시요. MiniFramework 에 넘쳐나는 Convey 목록들을… 
-그리고 Convey 들이 자유롭게 조립되어 생산되는 직관적인 프로그램들을…
+Imagine it: an overflowing list of Conveys in MiniFramework... and intuitive programs being produced by freely combining Conveys...
 
 
-당신의 도움이 필요합니다.
+We need your help.
 
 
-권민혁
+Min-Hyuck Kwon
 Lead Developer - MiniFramework
 
 
@@ -64,10 +53,3 @@ Reference
 =============
 
 [1] Chain of Responsibility Pattern, OoDesign.com, http://www.oodesign.com/chain-of-responsibility-pattern.html
-
-
-
-
-
-
-
